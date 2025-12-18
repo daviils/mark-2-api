@@ -3,6 +3,7 @@ import { VideosService } from './service/videos.service';
 import { VideosResolver } from './resolver/videos.resolver';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {Videos} from './entity/videos.entity';
+import { VideosController } from './controller/videos.controller';
 
 @Module({
   imports:[
@@ -10,6 +11,7 @@ import {Videos} from './entity/videos.entity';
     Videos,
    ]),
   ],
-  providers: [VideosService, VideosResolver]
+  providers: [VideosService, VideosResolver],
+  controllers: [VideosController]
 })
 export class VideosModule {}

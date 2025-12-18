@@ -3,8 +3,8 @@ import { VideosService } from '../service/videos.service';
 import { Videos } from '../entity/videos.entity';
 import { CreateVideoInput } from '../dto/create-video.input';
 import { DefaultMessage } from 'src/common/default-message';
-import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard, GqlAuthGuardAdmin } from 'src/auth/guards/auth.guard';
+import { VideoPage } from '../dto/video-page';
+import { SearchVideoInput } from '../dto/search-video.input';
 
 @Resolver()
 export class VideosResolver {
@@ -20,6 +20,11 @@ export class VideosResolver {
     @Query(() => [Videos])
     async listVideos() {
         return this.service.list();
+    }
+
+    @Query(() => [VideoPage])
+    async searchVideo(@Args('input', { type: () => SearchVideoInput }) input: SearchVideoInput) {
+        return this.service.search(input);
     }
 
     @Query(() => Videos)
