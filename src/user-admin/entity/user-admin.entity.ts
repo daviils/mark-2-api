@@ -9,7 +9,7 @@ export class UserAdmin {
 
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 120 })
   @Field()
@@ -24,7 +24,7 @@ export class UserAdmin {
     nullable: true
   })
   @HideField()
-  password?: string;
+  password: string;
 
   @CreateDateColumn()
   createdAt: Date;

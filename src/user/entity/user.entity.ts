@@ -9,7 +9,7 @@ export class User {
 
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
-  id: number;
+  id: string;
 
   @Column({ nullable: true })
   @Field()

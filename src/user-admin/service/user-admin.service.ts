@@ -34,6 +34,34 @@ export class UserAdminService {
         }
     }
 
+
+    async findUserByIdIntern(id: string): Promise<UserAdmin | null> {
+        const user = await this.repository.createQueryBuilder('user-admin')
+            .where('user-admin.id = :id', { id: id })
+            .getOne();
+
+        return user;
+    }
+
+    async findOneByEmail(email: string): Promise<UserAdmin> {
+        try {
+            const user = await this.repository.createQueryBuilder('user')
+                .where('user.email = :email', { email: email })
+                .getOne();
+
+            if (!user) {
+                throw new NotFoundException('Usuário não encontrado.');
+            }
+            return user;
+        } catch (error) {
+            if (error instanceof BadRequestException || error instanceof NotFoundException) {
+                throw error;
+            }
+            console.error('Erro inesperado: ', error);
+            throw new InternalServerErrorException('Falha ao retornar o usuário admin!');
+        }
+    }
+
     async findOne(id: string): Promise<UserAdmin> {
         try {
             const user = await this.repository.createQueryBuilder('user')
@@ -49,7 +77,7 @@ export class UserAdminService {
                 throw error;
             }
             console.error('Erro inesperado: ', error);
-            throw new InternalServerErrorException('Falha ao criar conta do cliente!');
+            throw new InternalServerErrorException('Falha ao retornar o usuário admin!');
         }
     }
 

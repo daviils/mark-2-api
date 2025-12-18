@@ -9,7 +9,7 @@ export class Videos {
 
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 120 })
   @Field()

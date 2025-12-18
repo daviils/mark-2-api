@@ -3,6 +3,8 @@ import { VideosService } from '../service/videos.service';
 import { Videos } from '../entity/videos.entity';
 import { CreateVideoInput } from '../dto/create-video.input';
 import { DefaultMessage } from 'src/common/default-message';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard, GqlAuthGuardAdmin } from 'src/auth/guards/auth.guard';
 
 @Resolver()
 export class VideosResolver {
