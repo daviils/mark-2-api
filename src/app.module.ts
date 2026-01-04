@@ -8,6 +8,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { VideosModule } from './videos/videos.module';
 import { UserAdminModule } from './user-admin/user-admin.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
 	imports: [
@@ -39,6 +40,7 @@ import { UserAdminModule } from './user-admin/user-admin.module';
 		UserModule,
 		VideosModule,
 		UserAdminModule,
+		AuthModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

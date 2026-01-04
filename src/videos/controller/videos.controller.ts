@@ -16,39 +16,39 @@ export class VideosController {
     ) {
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Post('import-video/excel')
-    @ApiOperation({ description: 'Import Excel' })
-    @HttpCode(HttpStatus.OK)
-    @ApiConsumes('multipart/form-data')
-    @ApiBody({
-        required: true,
-        schema: {
-            type: 'object',
-            properties: {
-                file: {
-                    type: 'string',
-                    format: 'binary',
+    // @UseGuards(JwtAuthGuard)
+    // @Post('import-video/excel')
+    // @ApiOperation({ description: 'Import Excel' })
+    // @HttpCode(HttpStatus.OK)
+    // @ApiConsumes('multipart/form-data')
+    // @ApiBody({
+    //     required: true,
+    //     schema: {
+    //         type: 'object',
+    //         properties: {
+    //             file: {
+    //                 type: 'string',
+    //                 format: 'binary',
 
-                },
-            },
-        },
-    })
-    @UseInterceptors(FileInterceptor('file', {
-        limits: {
-            fieldSize: 5,
-        },
-        fileFilter: (req: any, file: any, cb: any) => {
-            if (!file.mimetype.match(/\/(vnd.openxmlformats-officedocument.spreadsheetml.sheet)$/)) {
-                cb(new BadRequestException(`Unsupported file type ${file.mimetype}`), false);
-            }
-            cb(null, true);
-        },
-    }))
-    async importExcel(
-        @UploadedFile(Multer.ParseFile) file: Multer.File,
-        @Req() req: any,
-    ) {
-        return await this.service.importExcel(file);
-    }
+    //             },
+    //         },
+    //     },
+    // })
+    // @UseInterceptors(FileInterceptor('file', {
+    //     limits: {
+    //         fieldSize: 5,
+    //     },
+    //     fileFilter: (req: any, file: any, cb: any) => {
+    //         if (!file.mimetype.match(/\/(vnd.openxmlformats-officedocument.spreadsheetml.sheet)$/)) {
+    //             cb(new BadRequestException(`Unsupported file type ${file.mimetype}`), false);
+    //         }
+    //         cb(null, true);
+    //     },
+    // }))
+    // async importExcel(
+    //     @UploadedFile(Multer.ParseFile) file: Multer.File,
+    //     @Req() req: any,
+    // ) {
+    //     return await this.service.importExcel(file);
+    // }
 }

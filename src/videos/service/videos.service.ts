@@ -3,7 +3,7 @@ import { BadRequestException, Injectable, InternalServerErrorException, NotFound
 import { Videos } from '../entity/videos.entity';
 import { Brackets, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateVideoInput } from '../dto/create-video.input';
+import { CreateVideoInput, DeleteVideoInput, UpdateVideoInput } from '../dto/create-video.input';
 import { DefaultMessage } from 'src/common/default-message';
 import { VideoPage } from '../dto/video-page';
 import { SearchVideoInput } from '../dto/search-video.input';
@@ -33,6 +33,60 @@ export class VideosService {
             }
             console.error('Erro inesperado: ', error);
             throw new InternalServerErrorException('Falha ao cadastrar video!');
+        }
+    }
+
+    async update(data: UpdateVideoInput): Promise<DefaultMessage> {
+        try {
+            const getOne = await this.repository.createQueryBuilder('user')
+                .where('user.id = :id', { id: data.id })
+                .getOne();
+
+            if (!getOne) {
+                throw new NotFoundException('Video não encontrado.');
+            }
+
+            await this.repository.update(getOne.id, {
+                title: data.title ? data.title : getOne.title,
+                description: data.description ? data.description : getOne.description,
+                thumb: data.thumb ? data.thumb : getOne.thumb,
+                urlExternal: data.urlExternal ? data.urlExternal : getOne.urlExternal,
+                site: data.site ? data.site : getOne.site,
+                tags: data.tags ? data.tags : getOne.tags,
+            });
+
+            return new DefaultMessage(200, 'Video editado com sucesso');
+
+        } catch (error) {
+            if (error instanceof BadRequestException || error instanceof NotFoundException) {
+                throw error;
+            }
+            console.error('Erro inesperado: ', error);
+            throw new InternalServerErrorException('Falha ao edtitar video!');
+        }
+    }
+
+    async delete(data: DeleteVideoInput): Promise<DefaultMessage> {
+        try {
+
+            const getOne = await this.repository.createQueryBuilder('user')
+                .where('user.id = :id', { id: data.id })
+                .getOne();
+
+            if (!getOne) {
+                throw new NotFoundException('Video não encontrado.');
+            }
+
+            await this.repository.softDelete(getOne.id);
+
+            return new DefaultMessage(200, 'Video deletado com sucesso');
+
+        } catch (error) {
+            if (error instanceof BadRequestException || error instanceof NotFoundException) {
+                throw error;
+            }
+            console.error('Erro inesperado: ', error);
+            throw new InternalServerErrorException('Falha ao deletar video!');
         }
     }
 
@@ -159,7 +213,7 @@ export class VideosService {
             const user = new ImportVideoInput();
             if (row.values[1].indexOf('\'') != -1)
                 throw new BadRequestException('Carácter inválido (\')');
-            
+
             user.title = row.values[1];
             user.description = row.values[2];
             user.thumb = row.values[3];

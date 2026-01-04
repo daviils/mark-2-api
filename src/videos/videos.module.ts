@@ -12,6 +12,6 @@ import { VideosController } from './controller/videos.controller';
    ]),
   ],
   providers: [VideosService, VideosResolver],
-  controllers: [VideosController]
+  // controllers: [VideosController]
 })
 export class VideosModule {}

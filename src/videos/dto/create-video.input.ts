@@ -23,3 +23,19 @@ export class CreateVideoInput {
 
 }
 
+@InputType()
+export class UpdateVideoInput extends CreateVideoInput {
+
+    @Field()
+    id: string
+    
+}
+
+@InputType()
+export class DeleteVideoInput {
+
+    @Field()
+    id: string
+
+}
+
