@@ -9,6 +9,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { VideosModule } from './videos/videos.module';
 import { UserAdminModule } from './user-admin/user-admin.module';
 import { AuthModule } from './auth/auth.module';
+import { TopicModule } from './topic/topic.module';
 
 @Module({
 	imports: [
@@ -41,6 +42,7 @@ import { AuthModule } from './auth/auth.module';
 		VideosModule,
 		UserAdminModule,
 		AuthModule,
+		TopicModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
