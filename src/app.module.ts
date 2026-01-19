@@ -10,6 +10,7 @@ import { VideosModule } from './videos/videos.module';
 import { UserAdminModule } from './user-admin/user-admin.module';
 import { AuthModule } from './auth/auth.module';
 import { TopicModule } from './topic/topic.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
 	imports: [
@@ -43,6 +44,7 @@ import { TopicModule } from './topic/topic.module';
 		UserAdminModule,
 		AuthModule,
 		TopicModule,
+		CommentsModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

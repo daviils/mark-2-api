@@ -1,12 +1,12 @@
 import { Field, HideField, ID, Int, ObjectType } from '@nestjs/graphql';
-import { Comments } from 'src/comments/entity/comments.entity';
 import { hashPasswordTransform } from 'src/common/helpers/crypto';
-import { CreateDateColumn, DeleteDateColumn, Entity, OneToMany, UpdateDateColumn } from 'typeorm';
+import { Topic } from 'src/topic/entity/topic.entity';
+import { CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, UpdateDateColumn } from 'typeorm';
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @ObjectType() // 👈 necessário pro Graph
 @Entity()
-export class Topic {
+export class Comments {
 
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
@@ -15,10 +15,6 @@ export class Topic {
   @Column({ type: 'varchar', length: 120 })
   @Field()
   title: string;
-
-  @Column({ type: 'varchar', length: 120 })
-  @Field()
-  link: string;
 
   @Column({ type: 'varchar', length: 120 })
   @Field()
@@ -40,7 +36,8 @@ export class Topic {
   @Field()
   deletedAt?: Date;
 
-  @OneToMany(() => Comments, (entity) => entity.topic)
-  comments?: Comments[];
+  @ManyToOne(() => Topic, (entity) => entity.comments)
+  @JoinColumn()
+  topic: Topic;
 
 }

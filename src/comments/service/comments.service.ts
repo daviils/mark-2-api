@@ -1,22 +1,31 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { DefaultMessage } from 'src/common/default-message';
-import { Topic } from '../entity/topic.entity';
+import { Comments } from '../entity/comments.entity';
 import { Brackets, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateTopicInput, DeleteTopicInput, UpdateTopicInput } from '../dto/create-topic.input';
-import { SearchTopicAdminInput, SearchTopicInput } from '../dto/search-topic.input';
-import { TopicPage } from '../dto/topic-page';
+import { CreateCommentsInput, DeleteCommentsInput, UpdateCommentsInput } from '../dto/create-comments.input';
+import { DefaultMessage } from 'src/common/default-message';
+import { CommentsPage } from '../dto/comments-page';
+import { SearchCommentsAdminInput } from '../dto/search-comments.input';
+import { Topic } from 'src/topic/entity/topic.entity';
 
 @Injectable()
-export class TopicService  {
+export class CommentsService {
     constructor(
+        @InjectRepository(Comments)
+        private repository: Repository<Comments>,
         @InjectRepository(Topic)
-        private repository: Repository<Topic>,
+        private repositoryTopic: Repository<Topic>,
     ) { }
 
-    async create(data: CreateTopicInput): Promise<DefaultMessage> {
+    async create(data: CreateCommentsInput): Promise<DefaultMessage> {
         try {
-            const create = this.repository.create(data);
+
+            const topic = await this.repositoryTopic.findOne({ where: { id: data.topicId } });
+            if (!topic) {
+                throw new NotFoundException('Tópico não encontrado!');
+            }
+
+            const create = this.repository.create({ ...data, topic });
             const savedAdmin = await this.repository.save(create);
             return new DefaultMessage(200, 'Tópico criado com sucesso!');
         } catch (error) {
@@ -28,7 +37,7 @@ export class TopicService  {
         }
     }
 
-    async update(data: UpdateTopicInput): Promise<DefaultMessage> {
+    async update(data: UpdateCommentsInput): Promise<DefaultMessage> {
         try {
             const getOne = await this.repository.createQueryBuilder('query')
                 .where('query.id = :id', { id: data.id })
@@ -40,7 +49,6 @@ export class TopicService  {
 
             await this.repository.update(getOne.id, {
                 title: data.title ? data.title : getOne.title,
-                link: data.link ? data.link : getOne.link,
             });
 
             return new DefaultMessage(200, 'Tópico editado com sucesso');
@@ -54,7 +62,7 @@ export class TopicService  {
         }
     }
 
-    async delete(data: DeleteTopicInput): Promise<DefaultMessage> {
+    async delete(data: DeleteCommentsInput): Promise<DefaultMessage> {
         try {
 
             const getOne = await this.repository.createQueryBuilder('query')
@@ -78,7 +86,7 @@ export class TopicService  {
         }
     }
 
-    async byId(id: string): Promise<Topic> {
+    async byId(id: string): Promise<Comments> {
         try {
             const getOne = await this.repository.createQueryBuilder('query')
                 .where('query.id = :id', { id: id })
@@ -98,7 +106,7 @@ export class TopicService  {
         }
     }
 
-    async search(data: SearchTopicAdminInput): Promise<TopicPage> {
+    async search(data: SearchCommentsAdminInput): Promise<CommentsPage> {
         try {
             const query = this.repository.createQueryBuilder('query')
                 .where('query.deletedAt IS NULL')
@@ -154,5 +162,4 @@ export class TopicService  {
             throw new InternalServerErrorException('Falha ao retornar Tópico paginados!');
         }
     }
-
 }
