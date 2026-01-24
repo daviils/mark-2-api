@@ -1,9 +1,13 @@
 import { Field, HideField, ID, Int, ObjectType } from '@nestjs/graphql';
 import { Comments } from 'src/comments/entity/comments.entity';
-import { hashPasswordTransform } from 'src/common/helpers/crypto';
 import { CreateDateColumn, DeleteDateColumn, Entity, OneToMany, UpdateDateColumn } from 'typeorm';
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
 
+
+export enum TopicStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+}
 @ObjectType() // 👈 necessário pro Graph
 @Entity()
 export class Topic {
@@ -24,7 +28,11 @@ export class Topic {
   @Field()
   createdBy: string;
 
-  @Column({ type: 'enum', enum: ['active', 'inactive'], default: 'active' })
+  @Column({
+    type: 'nvarchar',
+    length: 20,
+    default: TopicStatus.ACTIVE,
+  })
   @Field()
   status: string;
 

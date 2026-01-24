@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UserModule } from './user/user.module';
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { VideosModule } from './videos/videos.module';
 import { UserAdminModule } from './user-admin/user-admin.module';
@@ -26,17 +26,16 @@ import { CommentsModule } from './comments/comments.module';
 		TypeOrmModule.forRootAsync({
 			imports: [ConfigModule],
 			inject: [ConfigService],
-			useFactory: (configService: ConfigService) => ({
-				type: 'mysql',
-				host: configService.get<string>('DB_HOST'),
-				port: parseInt(configService.get<string>('DB_PORT')!, 10),
-				username: configService.get<string>('DB_USERNAME'),
-				password: configService.get<string>('DB_PASSWORD'),
-				database: configService.get<string>('DB_DATABASE'),
-				entities: [__dirname + '/**/*.entity{.ts,.js}'],
+			useFactory: (configService: ConfigService): TypeOrmModuleOptions => ({
+				type: 'mssql',
+				host: configService.get<string>('DB_HOST')!,
+				port: Number(configService.get<string>('DB_PORT')),
+				username: configService.get<string>('DB_USERNAME')!,
+				password: configService.get<string>('DB_PASSWORD')!,
+				database: configService.get<string>('DB_DATABASE')!,
+				autoLoadEntities: true,
 				synchronize: true,
 				logging: false,
-				autoLoadEntities: true
 			}),
 		}),
 		UserModule,

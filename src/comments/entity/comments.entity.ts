@@ -4,6 +4,11 @@ import { Topic } from 'src/topic/entity/topic.entity';
 import { CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, UpdateDateColumn } from 'typeorm';
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
 
+export enum CommentStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+}
+
 @ObjectType() // 👈 necessário pro Graph
 @Entity()
 export class Comments {
@@ -20,7 +25,11 @@ export class Comments {
   @Field()
   createdBy: string;
 
-  @Column({ type: 'enum', enum: ['active', 'inactive'], default: 'active' })
+  @Column({
+    type: 'nvarchar',
+    length: 20,
+    default: CommentStatus.ACTIVE,
+  })
   @Field()
   status: string;
 
