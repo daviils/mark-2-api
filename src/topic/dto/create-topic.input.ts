@@ -30,3 +30,11 @@ export class DeleteTopicInput {
 
 }
 
+@InputType()
+export class ReportTopicInput {
+
+    @Field()
+    id: string
+
+}
+

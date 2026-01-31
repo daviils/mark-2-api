@@ -1,6 +1,6 @@
 FASE - 1
 WEB
- - HOME (searchTopics,reportTopic,addTopic)
+ - HOME (searchTopics,reportTopic,createTopic)
  - TOPIC (topicById, addComments,reportComments)
 
 ROTAS
@@ -12,7 +12,6 @@ ROTAS
  addComment(comments){defaulMessage}
 
  BANCO
- CATEGORY(name) - politica, musica, cinema, video game, outros
  TOPIC(title,description,link,categoryId)
  COMMENTS(title,description,link,topicId)
  COMMENTS_REPLY(title,description,link,commentId)
@@ -29,3 +28,4 @@ ADMIM
  deleteTopicAdmin(id){defaultMessage}
  deleteCommentAdmin(id){defaultMessage}
 
+ CATEGORY(name) - politica, musica, cinema, video game, outros

@@ -7,6 +7,7 @@ import { Column, PrimaryGeneratedColumn } from 'typeorm';
 export enum CommentStatus {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
+  REPORTED = 'REPORTED',
 }
 
 @ObjectType() // 👈 necessário pro Graph
@@ -32,6 +33,9 @@ export class Comments {
   })
   @Field()
   status: string;
+
+  @Column({ type: 'int', default: 0 })
+  reportCount: number;
 
   @CreateDateColumn()
   @Field()

@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { Comments } from '../entity/comments.entity';
+import { Comments, CommentStatus } from '../entity/comments.entity';
 import { Brackets, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateCommentsInput, DeleteCommentsInput, UpdateCommentsInput } from '../dto/create-comments.input';
+import { CreateCommentsInput, DeleteCommentsInput, ReportCommentsInput, UpdateCommentsInput } from '../dto/create-comments.input';
 import { DefaultMessage } from 'src/common/default-message';
 import { CommentsPage } from '../dto/comments-page';
 import { SearchCommentsAdminInput } from '../dto/search-comments.input';
@@ -34,6 +34,37 @@ export class CommentsService {
             }
             console.error('Erro inesperado: ', error);
             throw new InternalServerErrorException('Falha ao cadastrar Tópico!');
+        }
+    }
+
+
+    async report(data: ReportCommentsInput): Promise<DefaultMessage> {
+        try {
+
+            const getOne = await this.repository
+                .createQueryBuilder()
+                .update()
+                .set({
+                    status: CommentStatus.REPORTED,
+                })
+                .set({
+                    reportCount: () => '"reportCount" + 1',
+                })
+                .where('id = :id', { id: data.id })
+                .execute();
+
+            if (!getOne) {
+                throw new NotFoundException('Tópico não encontrado.');
+            }
+
+            return new DefaultMessage(200, 'Tópico reportado com sucesso');
+
+        } catch (error) {
+            if (error instanceof BadRequestException || error instanceof NotFoundException) {
+                throw error;
+            }
+            console.error('Erro inesperado: ', error);
+            throw new InternalServerErrorException('Falha ao reportar Tópico!');
         }
     }
 

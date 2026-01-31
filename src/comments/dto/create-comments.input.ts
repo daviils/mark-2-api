@@ -30,3 +30,12 @@ export class DeleteCommentsInput {
 
 }
 
+
+@InputType()
+export class ReportCommentsInput {
+
+    @Field()
+    id: string
+
+}
+

@@ -7,6 +7,7 @@ import { Column, PrimaryGeneratedColumn } from 'typeorm';
 export enum TopicStatus {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
+  REPORTED = 'REPORTED',
 }
 @ObjectType() // 👈 necessário pro Graph
 @Entity()
@@ -35,6 +36,9 @@ export class Topic {
   })
   @Field()
   status: string;
+
+  @Column({ type: 'int', default: 0 })
+  reportCount: number;
 
   @CreateDateColumn()
   @Field()
