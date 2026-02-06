@@ -10,6 +10,9 @@ async function bootstrap() {
   // pasta onde ficam as views
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
 
+  // assets estáticos (css, imagens, etc)
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+
   // template engine
   app.setViewEngine('ejs');
 

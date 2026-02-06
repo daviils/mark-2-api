@@ -13,6 +13,8 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "tailwind:build": "tailwindcss -i ./views/styles/tailwind.css -o ./public/css/tailwind.css --minify",
+    "tailwind:watch": "tailwindcss -i ./views/styles/tailwind.css -o ./public/css/tailwind.css --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -70,7 +72,10 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.20.0"
+    "typescript-eslint": "^8.20.0",
+    "tailwindcss": "^3.4.17",
+    "postcss": "^8.4.49",
+    "autoprefixer": "^10.4.20"
   },
   "jest": {
     "moduleFileExtensions": [
