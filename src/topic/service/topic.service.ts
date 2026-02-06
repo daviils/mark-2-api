@@ -64,7 +64,9 @@ export class TopicService {
             const getOne = await this.repository.createQueryBuilder('query')
                 .where('query.id = :id', { id: id })
                 .leftJoinAndSelect('query.comments', 'comments')
+                .leftJoinAndSelect('comments.replies', 'replies')
                 .andWhere('comments.status != status:', { status: CommentStatus.REPORTED })
+                .andWhere('replies.status != status:', { ReplyStatus: CommentStatus.REPORTED })
                 .getOne();
 
             if (!getOne) {

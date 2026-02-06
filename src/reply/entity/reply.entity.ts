@@ -1,32 +1,29 @@
-import { Field, HideField, ID, Int, ObjectType } from '@nestjs/graphql';
-import { Reply } from 'src/reply/entity/reply.entity';
-import { Topic } from 'src/topic/entity/topic.entity';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Comments } from 'src/comments/entity/comments.entity';
 import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   UpdateDateColumn,
 } from 'typeorm';
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
 
-export enum CommentStatus {
+export enum ReplyStatus {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
   REPORTED = 'REPORTED',
 }
 
-@ObjectType() // 👈 necessário pro Graph
+@ObjectType()
 @Entity()
-export class Comments {
-
+export class Reply {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id: string;
 
-  @Column({ type: 'varchar', length: 120 })
+  @Column({ type: 'varchar', length: 500 })
   @Field()
   content: string;
 
@@ -41,7 +38,7 @@ export class Comments {
   @Column({
     type: 'nvarchar',
     length: 20,
-    default: CommentStatus.ACTIVE,
+    default: ReplyStatus.ACTIVE,
   })
   @Field()
   status: string;
@@ -61,12 +58,8 @@ export class Comments {
   @Field()
   deletedAt?: Date;
 
-  @ManyToOne(() => Topic, (entity) => entity.comments)
+  @ManyToOne(() => Comments, (entity) => entity.replies)
   @JoinColumn()
-  topic: Topic;
-
-  @OneToMany(() => Reply, (entity) => entity.comment)
-  @Field(() => [Reply], { nullable: true })
-  replies?: Reply[];
-
+  comment: Comments;
 }
+
