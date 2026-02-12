@@ -1,19 +1,51 @@
-import { BadRequestException, Controller, HttpCode, HttpStatus, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/auth.guard';
+import { DefaultMessage } from 'src/common/default-message';
+import { CreateVideoInput, DeleteVideoInput, UpdateVideoInput } from '../dto/create-video.input';
+import { SearchVideoInput } from '../dto/search-video.input';
+import { VideoPage } from '../dto/video-page';
+import { Videos } from '../entity/videos.entity';
 import { VideosService } from '../service/videos.service';
-import { Multer } from 'multer';
 
 
 @Controller('videos')
 export class VideosController {
 
-    constructor(
-        private readonly service: VideosService,
-        private readonly jwtService: JwtService,
-    ) {
+    constructor(private readonly service: VideosService) {}
+
+    @UseGuards(JwtAuthGuard)
+    @Post()
+    async createVideo(@Body() input: CreateVideoInput): Promise<DefaultMessage> {
+        return this.service.create(input);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put()
+    async updateVideo(@Body() input: UpdateVideoInput): Promise<DefaultMessage> {
+        return this.service.update(input);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete()
+    async deleteVideo(@Body() input: DeleteVideoInput): Promise<DefaultMessage> {
+        return this.service.delete(input);
+    }
+
+    @Get()
+    async listVideos(): Promise<Videos[]> {
+        return this.service.list();
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('search')
+    async searchVideo(@Body() input: SearchVideoInput): Promise<VideoPage> {
+        return this.service.search(input);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get(':id')
+    async byIdVideos(@Param('id') id: string): Promise<Videos> {
+        return this.service.byId(id);
     }
 
     // @UseGuards(JwtAuthGuard)

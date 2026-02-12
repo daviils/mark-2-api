@@ -4,7 +4,7 @@ import { Field, InputType } from "@nestjs/graphql";
 export class CreateCommentsInput {
 
     @Field()
-    title: string
+    content: string
 
     @Field()
     topicId: string;

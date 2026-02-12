@@ -79,7 +79,7 @@ export class CommentsService {
             }
 
             await this.repository.update(getOne.id, {
-                title: data.title ? data.title : getOne.title,
+                content: data.content ? data.content : getOne.content,
             });
 
             return new DefaultMessage(200, 'Tópico editado com sucesso');

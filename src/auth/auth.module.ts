@@ -4,6 +4,7 @@ import { User } from 'src/user/entity/user.entity';
 import { JwtStrategy } from './guards/jwt.strategy';
 import { AuthService } from './service/auth.service';
 import { AuthResolver } from './resolvers/auth.resolver';
+import { AuthController } from './controller/auth.controller';
 import { UserAdminService } from "../user-admin/service/user-admin.service";
 import { UserAdmin } from "../user-admin/entity/user-admin.entity";
 import { JwtModule } from '@nestjs/jwt';
@@ -24,6 +25,7 @@ import { HttpModule } from '@nestjs/axios';
         HttpModule,
     ],
     providers: [AuthService, AuthResolver, UserAdminService, JwtStrategy],
+    controllers: [AuthController],
     exports: [AuthService],
 })
 export class AuthModule {

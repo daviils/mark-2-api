@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CommentsService } from './service/comments.service';
 import { CommentsResolver } from './resolver/comments.resolver';
+import { CommentsController } from './controller/comments.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Comments } from './entity/comments.entity';
 import { Topic } from 'src/topic/entity/topic.entity';
@@ -12,6 +13,7 @@ import { Topic } from 'src/topic/entity/topic.entity';
       Topic
     ]),
   ],
-  providers: [CommentsService, CommentsResolver]
+  providers: [CommentsService, CommentsResolver],
+  controllers: [CommentsController]
 })
 export class CommentsModule {}
