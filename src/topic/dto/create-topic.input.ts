@@ -16,7 +16,7 @@ export class CreateTopicInput {
 
 @InputType()
 export class UpdateTopicInput extends CreateTopicInput {
-
+ 
     @Field()
     id: string
 
