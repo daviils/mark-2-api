@@ -40,14 +40,12 @@ function setupTopicModal(formElement) {
     <p style="margin-top:8px;color:#475569;">Preencha os dados abaixo para criar um topico.</p>
 
     <form id="create-topic-form" style="margin-top:14px;display:grid;gap:10px;">
+    
       <label style="display:grid;gap:6px;">
         <span style="font-size:0.875rem;color:#334155;">Titulo</span>
         <input id="topic-title" name="title" type="text" required maxlength="200" placeholder="Ex.: Como usar NestJS com MSSQL" class="rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-slate-500" />
       </label>
-      <label style="display:grid;gap:6px;">
-        <span style="font-size:0.875rem;color:#334155;">Link</span>
-        <input id="topic-link" name="link" type="text" required placeholder="https://..." class="rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-slate-500" />
-      </label>
+
       <label style="display:grid;gap:6px;">
         <span style="font-size:0.875rem;color:#334155;">Criado por</span>
         <input id="topic-created-by" name="createdBy" type="text" required maxlength="120" placeholder="Seu nome ou identificador" class="rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-slate-500" />

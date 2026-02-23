@@ -21,9 +21,9 @@ export class Topic {
   @Field()
   title: string;
 
-  @Column({ type: 'varchar', length: 120 })
+  @Column({ type: 'varchar', length: 250, nullable: true })
   @Field()
-  link: string;
+  link?: string;
 
   @Column({ type: 'varchar', length: 120 })
   @Field()

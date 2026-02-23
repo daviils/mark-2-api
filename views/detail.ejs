@@ -1,0 +1,27 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail</title>
+    <link rel="stylesheet" href="/css/tailwind.css" />
+  </head>
+  <body class="bg-slate-50 text-slate-900">
+    <main class="mx-auto max-w-3xl px-6 py-16">
+      <div class="mb-4 flex justify-end">
+        <button
+          id="add-comment-button"
+          type="button"
+          class="rounded-md bg-emerald-600 px-4 py-2 font-medium text-white hover:bg-emerald-700"
+        >
+          Adicionar comentário
+        </button>
+      </div>
+      <section id="detail-container" class="mt-8 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <p class="text-slate-600">Carregando detalhes...</p>
+      </section>
+    </main>
+    <script src="/js/detail.js" defer></script>
+    <script src="/js/detail-modal.js" defer></script>
+  </body>
+</html>

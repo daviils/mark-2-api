@@ -1,4 +1,4 @@
-const form = document.getElementById('topic-search-form');
+﻿const form = document.getElementById('topic-search-form');
 const keywordInput = document.getElementById('keyword');
 const feedback = document.getElementById('feedback');
 const results = document.getElementById('results');
@@ -23,9 +23,11 @@ function renderResults(items) {
     .map((topic) => {
       const title = escapeHtml(topic.title || 'Sem título');
       const tags = escapeHtml(topic.tags || '');
+      const topicId = String(topic.id || '').trim();
+      const detailHref = topicId ? `/detail/${encodeURIComponent(topicId)}` : '#';
       return `
         <li class="rounded-md border border-slate-200 p-3">
-          <p class="font-semibold">${title}</p>
+          <a href="${detailHref}" class="font-semibold hover:underline">${title}</a>
           ${tags ? `<p class="mt-1 text-sm text-slate-600">Tags: ${tags}</p>` : ''}
         </li>
       `;

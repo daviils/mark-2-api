@@ -14,9 +14,21 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+  describe('home', () => {
+    it('should return name for home view', () => {
+      expect(appController.home()).toEqual({ name: 'David' });
+    });
+  });
+
+  describe('detail', () => {
+    it('should return item details passing :id', () => {
+      expect(appController.detail('42')).toEqual({
+        item: {
+          id: '42',
+          title: 'Item 42',
+          description: 'Detalhes do item 42.',
+        },
+      });
     });
   });
 });
